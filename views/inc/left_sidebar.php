@@ -45,7 +45,7 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link waves-effect waves-dark" href="index.php" aria-expanded="false">
-							<i class="mdi mdi-view-grid"></i>
+							<i class="ti ti-apps"></i>
 							<span class="hide-menu"> <?php echo $lang['left-menu-sidebar-2'] ?></span>
 						</a>
 					</li>
@@ -154,7 +154,7 @@
 					<!-- Module pickup-->
 					<li class="sidebar-item">
 						<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-							<i class="mdi mdi-truck"></i>
+							<i class="ti ti-truck-delivery"></i>
 							<span class="hide-menu"> <?php echo $lang['left-menu-sidebar-18'] ?></span>
 						</a>
 						<ul aria-expanded="false" class="collapse  first-level">
@@ -202,7 +202,7 @@
 					<!-- CONSOLIDATE -->
 					<li class="sidebar-item">
 						<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-							<i class="mdi mdi-layers"></i>
+							<i class="ti ti-stack-2"></i>
 							<span class="hide-menu"><?php echo $lang['left-menu-sidebar-22'] ?></span>
 						</a>
 						<ul aria-expanded="false" class="collapse  first-level">
@@ -293,7 +293,7 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-							<i class="mdi mdi-currency-usd"></i>
+							<i class="ti ti-cash"></i>
 							<span class="hide-menu"> <?php echo $lang['left-menu-sidebar-27'] ?></span>
 						</a>
 						<ul aria-expanded="false" class="collapse  first-level">
@@ -617,7 +617,7 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link waves-effect waves-dark" href="index.php" aria-expanded="false">
-							<i class="mdi mdi-view-grid"></i>
+							<i class="ti ti-apps"></i>
 							<span class="hide-menu"> <?php echo $lang['left-menu-sidebar-2'] ?> </span>
 						</a>
 					</li>
@@ -729,7 +729,7 @@
 					<!-- Module pickup-->
 					<li class="sidebar-item">
 						<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-							<i class="mdi mdi-truck"></i>
+							<i class="ti ti-truck-delivery"></i>
 							<span class="hide-menu"> <?php echo $lang['left-menu-sidebar-18'] ?></span>
 						</a>
 						<ul aria-expanded="false" class="collapse  first-level">
@@ -778,7 +778,7 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-							<i class="mdi mdi-layers"></i>
+							<i class="ti ti-stack-2"></i>
 							<span class="hide-menu"><?php echo $lang['left-menu-sidebar-22'] ?></span>
 						</a>
 						<ul aria-expanded="false" class="collapse  first-level">
@@ -963,7 +963,7 @@
 
 
 					<li class="sidebar-item">
-						<a class="sidebar-link waves-effect waves-dark" href="index.php" aria-expanded="false"><i class="mdi mdi-view-grid"></i>
+						<a class="sidebar-link waves-effect waves-dark" href="index.php" aria-expanded="false"><i class="ti ti-apps"></i>
 							<span class="hide-menu"> <?php echo $lang['left-menu-sidebar-2'] ?> </span>
 						</a>
 					</li>
@@ -1056,7 +1056,7 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-							<i class="mdi mdi-layers"></i>
+							<i class="ti ti-stack-2"></i>
 							<span class="hide-menu"><?php echo $lang['left-menu-sidebar-22'] ?></span>
 						</a>
 						<ul aria-expanded="false" class="collapse  first-level">
@@ -1171,7 +1171,7 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link waves-effect waves-dark" href="index.php" aria-expanded="false">
-							<i class="mdi mdi-view-grid"></i>
+							<i class="ti ti-apps"></i>
 							<span class="hide-menu"> <?php echo $lang['left-menu-sidebar-2'] ?> </span>
 						</a>
 					</li>
@@ -1258,7 +1258,7 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-							<i class="mdi mdi-layers"></i>
+							<i class="ti ti-stack-2"></i>
 							<span class="hide-menu"><?php echo $lang['left-menu-sidebar-22'] ?></span>
 						</a>
 						<ul aria-expanded="false" class="collapse  first-level">

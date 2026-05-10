@@ -742,11 +742,11 @@ $monthName = obtenerNombreMes($currentMonth);
                         <div class="card h-100">
                             <div class="card-body d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div>
+                                    <img src="assets/images/alert/truck_dashboard.png" style="height:130px; opacity:0.85;" />
+                                    <div class="text-right">
                                         <h5 class="card-title mb-0">Top Customers</h5>
                                         <small class="text-muted">By shipment volume</small>
                                     </div>
-                                    <img src="assets/images/alert/truck_dashboard.png" style="height:50px; opacity:0.85;" />
                                 </div>
                                 <?php
                                 $db->cdp_query("SELECT CONCAT(u.fname, ' ', u.lname) as customer, COUNT(o.id) as total
