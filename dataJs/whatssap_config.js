@@ -1,36 +1,51 @@
 "use strict";
 
+$(document).ready(function () {
 
-// AJAX sweetalert2 guardar
+    // Show/hide sections based on selected provider
+    function switchProvider(provider) {
+        $('#section_ultramsg, #section_twilio, #section_meta').hide();
+        $('#section_' + provider).show();
 
-$(document).ready(function() {
-    // Cuando cambia el contenido del campo
-    $('.required').on('input', function() {
-        // Agrega o quita la clase 'highlight' según si el campo está vacío o no
+        // Update card active state
+        $('.provider-card').removeClass('active');
+        $('#card_' + provider).addClass('active');
+    }
+
+    // Init on page load
+    var initialProvider = $('input[name="whatsapp_provider"]:checked').val() || 'ultramsg';
+    switchProvider(initialProvider);
+
+    // On provider change
+    $('input[name="whatsapp_provider"]').on('change', function () {
+        switchProvider($(this).val());
+    });
+
+    // Highlight on input
+    $('.ultramsg-field, .twilio-field, .meta-field').on('input', function () {
         $(this).toggleClass('highlight', $(this).val() === '');
     });
 
-    $("#save_data").submit(function(event) {
+    // Form submit
+    $("#save_data").submit(function (event) {
         event.preventDefault();
 
-        // Obtén los valores de los campos
-        var api_ws_url = $('#api_ws_url').val(); 
-        var api_ws_token = $('#api_ws_token').val();
-        var active_whatsapp = $('#active_whatsapp').val();
+        var provider = $('input[name="whatsapp_provider"]:checked').val();
+        var emptyFields = [];
 
-        // Configurar objeto FormData
-        var data = new FormData(this);
+        if (provider === 'ultramsg') {
+            if ($('#api_ws_url').val() === '')   emptyFields.push('api_ws_url');
+            if ($('#api_ws_token').val() === '')  emptyFields.push('api_ws_token');
+        } else if (provider === 'twilio') {
+            if ($('#twilio_wa_sid').val() === '')    emptyFields.push('twilio_wa_sid');
+            if ($('#twilio_wa_token').val() === '')  emptyFields.push('twilio_wa_token');
+            if ($('#twilio_wa_number').val() === '') emptyFields.push('twilio_wa_number');
+        } else if (provider === 'meta') {
+            if ($('#meta_wa_token').val() === '')    emptyFields.push('meta_wa_token');
+            if ($('#meta_wa_phone_id').val() === '') emptyFields.push('meta_wa_phone_id');
+        }
 
-        // Validar campos requeridos
-        var camposVacios = [];
-        $('.required').each(function() {
-            if ($(this).val() === '') {
-                camposVacios.push($(this).attr('id'));
-            }
-        });
-
-        if (camposVacios.length > 0) {
-            // Muestra un mensaje de error con SweetAlert
+        if (emptyFields.length > 0) {
             Swal.fire({
                 type: 'error',
                 title: message_error_form21,
@@ -38,17 +53,14 @@ $(document).ready(function() {
                 confirmButtonColor: '#336aea',
                 showConfirmButton: true,
             });
-
-            // Resalta los campos vacíos
-            camposVacios.forEach(function(campo) {
-                $('#' + campo).addClass('highlight');
+            emptyFields.forEach(function (id) {
+                $('#' + id).addClass('highlight');
             });
-
-            // Detiene el envío del formulario
             return;
         }
 
-        // Realizar la solicitud AJAX
+        var data = new FormData($("#save_data")[0]);
+
         $.ajax({
             url: "./ajax/tools/api_whatsapp_config_ajax.php",
             type: 'POST',
@@ -56,7 +68,7 @@ $(document).ready(function() {
             contentType: false,
             cache: false,
             processData: false,
-            beforeSend: function() {
+            beforeSend: function () {
                 Swal.fire({
                     title: message_error_form6,
                     text: message_error_form14,
@@ -64,12 +76,10 @@ $(document).ready(function() {
                     showCancelButton: false,
                     showConfirmButton: false,
                     allowOutsideClick: false,
-                    onBeforeOpen: () => {
-                        Swal.showLoading();
-                    },
+                    onBeforeOpen: function () { Swal.showLoading(); },
                 });
             },
-            success: function(response) {
+            success: function (response) {
                 Swal.close();
                 if (response.status === 'success') {
                     Swal.fire({
@@ -78,8 +88,7 @@ $(document).ready(function() {
                         showConfirmButton: false,
                         timer: 1500,
                         timerProgressBar: true,
-                    }).then(() => {
-                        // Redirigir al listado de clientes
+                    }).then(function () {
                         window.location.href = 'config_whatsapp.php';
                     });
                 } else {
@@ -92,7 +101,7 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function() {
+            error: function () {
                 Swal.close();
                 Swal.fire({
                     type: 'error',

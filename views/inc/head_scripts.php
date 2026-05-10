@@ -44,10 +44,18 @@
 .topbar .user-dd .dropdown-item i { font-size: 12px !important; }
 
 /* Create new shipment button - blue instead of red */
+.ar-link-icon {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+.ar-link:hover .ar-link-icon {
+    transform: scale(1.6);
+}
 .create-btn {
     background-color: #467FFF !important;
     background-image: none !important;
     border-color: #467FFF !important;
+    border-radius: 9px !important;
 }
 .create-btn:hover {
     background-color: #2f6fe0 !important;

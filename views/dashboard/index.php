@@ -216,7 +216,10 @@ $monthName = obtenerNombreMes($currentMonth);
                                             <div>
                                                 <h6 class="card-title mb-1"><?php echo $lang['messagesform84'] ?></h6>
                                                 <h4 class="text-primary mb-1"><?php echo $core->currency; ?> <?php echo cdb_money_format($ar_total); ?></h4>
-                                                <a href="dashboard_admin_account.php" class="btn btn-primary btn-sm"><?php echo $lang['messagesform83'] ?></a>
+                                                <a href="dashboard_admin_account.php" class="ar-link text-primary d-inline-flex align-items-center" style="font-size:0.85rem; text-decoration:none;">
+                                                    <?php echo $lang['messagesform83'] ?>
+                                                    <i class="ar-link-icon mdi mdi-arrow-right" style="font-size:0.75rem; margin-left:4px;"></i>
+                                                </a>
                                             </div>
                                             <span class="text-primary display-6"><i class="mdi mdi-chart-line"></i></span>
                                         </div>

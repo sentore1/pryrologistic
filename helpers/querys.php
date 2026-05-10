@@ -6232,14 +6232,25 @@ function updateApiWhatsConfig($datos)
     $db = new Conexion;
 
     $db->cdp_query('UPDATE cdb_settings SET
-    
-            api_ws_url =:api_ws_url,                
-            api_ws_token =:api_ws_token,            
-            active_whatsapp =:active_whatsapp                
+            api_ws_url        = :api_ws_url,
+            api_ws_token      = :api_ws_token,
+            active_whatsapp   = :active_whatsapp,
+            whatsapp_provider = :whatsapp_provider,
+            twilio_wa_sid     = :twilio_wa_sid,
+            twilio_wa_token   = :twilio_wa_token,
+            twilio_wa_number  = :twilio_wa_number,
+            meta_wa_token     = :meta_wa_token,
+            meta_wa_phone_id  = :meta_wa_phone_id
         ');
-    $db->bind(':api_ws_url', $datos['api_ws_url']);
-    $db->bind(':api_ws_token', $datos['api_ws_token']);
-    $db->bind(':active_whatsapp', $datos['active_whatsapp']);
+    $db->bind(':api_ws_url',        $datos['api_ws_url']);
+    $db->bind(':api_ws_token',      $datos['api_ws_token']);
+    $db->bind(':active_whatsapp',   $datos['active_whatsapp']);
+    $db->bind(':whatsapp_provider', $datos['whatsapp_provider']);
+    $db->bind(':twilio_wa_sid',     $datos['twilio_wa_sid']);
+    $db->bind(':twilio_wa_token',   $datos['twilio_wa_token']);
+    $db->bind(':twilio_wa_number',  $datos['twilio_wa_number']);
+    $db->bind(':meta_wa_token',     $datos['meta_wa_token']);
+    $db->bind(':meta_wa_phone_id',  $datos['meta_wa_phone_id']);
     return $db->cdp_execute();
 }
 

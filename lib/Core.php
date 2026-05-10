@@ -93,6 +93,14 @@ class Core
   public $api_ws_token;
   public $api_ws_url;
   public $active_whatsapp;
+  public $whatsapp_provider;
+  // Twilio WhatsApp
+  public $twilio_wa_sid;
+  public $twilio_wa_token;
+  public $twilio_wa_number;
+  // Meta Cloud API
+  public $meta_wa_token;
+  public $meta_wa_phone_id;
 
   public $tax;
   public $insurance;
@@ -193,6 +201,12 @@ class Core
     $this->api_ws_token = $settings->api_ws_token;
     $this->api_ws_url = $settings->api_ws_url;
     $this->active_whatsapp = $settings->active_whatsapp;
+    $this->whatsapp_provider = $settings->whatsapp_provider ?? 'ultramsg';
+    $this->twilio_wa_sid    = $settings->twilio_wa_sid    ?? '';
+    $this->twilio_wa_token  = $settings->twilio_wa_token  ?? '';
+    $this->twilio_wa_number = $settings->twilio_wa_number ?? '';
+    $this->meta_wa_token    = $settings->meta_wa_token    ?? '';
+    $this->meta_wa_phone_id = $settings->meta_wa_phone_id ?? '';
 
     //SETTINGS TRACK INVOICE AND TAXES
     $this->version = $settings->version;
