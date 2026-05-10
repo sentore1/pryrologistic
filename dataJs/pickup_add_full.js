@@ -353,6 +353,34 @@ function loadPackages() {
   });
 }
 
+function importPackagesFromCSV(input) {
+  var file = input.files[0];
+  if (!file) return;
+
+  var reader = new FileReader();
+  reader.onload = function (e) {
+    var lines = e.target.result.split("\n").filter(function (l) { return l.trim() !== ""; });
+    for (var i = 1; i < lines.length; i++) {
+      var cols = lines[i].split(",");
+      if (cols.length < 8) continue;
+      packagesItems.push({
+        qty:            parseFloat(cols[0]) || 1,
+        description:    cols[1] ? cols[1].trim() : "",
+        weight:         parseFloat(cols[2]) || 0,
+        length:         parseFloat(cols[3]) || 0,
+        width:          parseFloat(cols[4]) || 0,
+        height:         parseFloat(cols[5]) || 0,
+        fixed_value:    parseFloat(cols[6]) || 0,
+        declared_value: parseFloat(cols[7]) || 0,
+      });
+    }
+    loadPackages();
+    calculateFinalTotal();
+    input.value = "";
+  };
+  reader.readAsText(file);
+}
+
 function addPackage() {
   packagesItems.push({
     qty: 1,

@@ -354,8 +354,19 @@ $userData = $user->cdp_getUserData();
                                     <div id="data_items"></div>
 
                                     <!-- Boton adicionar caja al listado -->
-                                    <div class="col-md-3 text-left">
-                                        <button type="button" onclick="addPackage()" name="add_rows" id="add_rows" class="btn btn-outline-dark"><span class="fa fa-plus"></span> <?php echo $lang['left231'] ?></button>
+                                    <div class="row mt-3 ml-1">
+                                        <div class="col-md-3 text-left">
+                                            <button type="button" onclick="addPackage()" name="add_rows" id="add_rows" class="btn btn-outline-dark"><span class="fa fa-plus"></span> <?php echo $lang['left231'] ?></button>
+                                        </div>
+                                        <div class="col-md-5 text-left">
+                                            <input type="file" id="csv_import_input" accept=".csv" style="display:none;" onchange="importPackagesFromCSV(this)">
+                                            <button type="button" onclick="document.getElementById('csv_import_input').click()" class="btn btn-outline-info">
+                                                <span class="fa fa-upload"></span> Import CSV
+                                            </button>
+                                            <a href="assets/templates/packages_import_template.csv" download class="btn btn-outline-secondary ml-2">
+                                                <span class="fa fa-download"></span> Download Template
+                                            </a>
+                                        </div>
                                     </div>
 
                                     <div><br></div>
