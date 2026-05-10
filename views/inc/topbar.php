@@ -323,24 +323,43 @@ function cdp_sendPAIMessage(autoMsg) {
         },
         success: function(data) {
             $('#' + typingId).remove();
-            var reply = data.reply || 'No response.';
+            var reply   = data.reply   || 'No response.';
+            var actions = data.actions || [];
 
-            // Format reply — convert markdown to HTML
+            // Format reply text
             var html = cdp_formatPAIReply(reply);
+
+            // Build action buttons if any
+            var actionsHtml = '';
+            if (actions.length > 0) {
+                actionsHtml += '<div style="margin-top:10px; padding-top:10px; border-top:1px solid #e9ecef; display:flex; flex-wrap:wrap; gap:6px;">';
+                actions.forEach(function(act, idx) {
+                    var btnId = 'pai-act-' + Date.now() + '-' + idx;
+                    var color = '#0d6efd';
+                    if (act.action === 'confirm_payment' || act.action === 'confirm_all_wire_payments') color = '#28a745';
+                    if (act.action === 'update_status') color = '#fd7e14';
+                    actionsHtml += '<button id="' + btnId + '" '
+                        + 'onclick="cdp_executeAction(' + JSON.stringify(act).replace(/"/g, '&quot;') + ', \'' + btnId + '\')" '
+                        + 'style="background:' + color + '; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-size:11px; font-weight:600; cursor:pointer;" '
+                        + 'title="' + (act.description || '') + '">'
+                        + act.label
+                        + '</button>';
+                });
+                actionsHtml += '</div>';
+            }
 
             $msgs.append(
                 '<div style="display:flex; align-items:flex-start; margin-bottom:12px;">'
                 + '<div style="background:#0d6efd; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; margin-right:8px; flex-shrink:0;">AI</div>'
                 + '<div style="background:#fff; border:1px solid #e9ecef; padding:10px 14px; border-radius:4px 16px 16px 16px; max-width:85%; font-size:13px; line-height:1.6;">'
-                + html + '</div></div>'
+                + html + actionsHtml
+                + '</div></div>'
             );
             $msgs.scrollTop($msgs[0].scrollHeight);
 
             // Update history
             paiHistory.push({ role: 'user',      content: msg });
             paiHistory.push({ role: 'assistant', content: reply });
-
-            // Keep history to last 10 exchanges
             if (paiHistory.length > 20) paiHistory = paiHistory.slice(-20);
         },
         error: function() {
@@ -354,11 +373,46 @@ function cdp_sendPAIMessage(autoMsg) {
     });
 }
 
+// Execute an action button click
+function cdp_executeAction(act, btnId) {
+    var $btn = $('#' + btnId);
+    $btn.prop('disabled', true).text('Processing...');
+
+    $.ajax({
+        url: 'ajax/ai/ai_action_ajax.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            action:  act.action,
+            payload: JSON.stringify(act)
+        },
+        success: function(res) {
+            if (res.success) {
+                $btn.css('background', '#28a745').text('✓ Done');
+                // Add confirmation message in chat
+                var $msgs = $('#pai-chat-messages');
+                $msgs.append(
+                    '<div style="display:flex; justify-content:center; margin-bottom:8px;">'
+                    + '<div style="background:#d4edda; color:#155724; padding:5px 14px; border-radius:20px; font-size:12px;">'
+                    + '✓ ' + res.message
+                    + '</div></div>'
+                );
+                $msgs.scrollTop($msgs[0].scrollHeight);
+            } else {
+                $btn.prop('disabled', false).css('background', '#dc3545').text('✗ Failed');
+                setTimeout(function(){ $btn.css('background','').prop('disabled', false).text(act.label); }, 3000);
+            }
+        },
+        error: function() {
+            $btn.prop('disabled', false).text(act.label);
+            alert('Action failed. Please try again.');
+        }
+    });
+}
+
 function cdp_formatPAIReply(text) {
-    // Convert markdown to HTML
     text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
-
     var lines = text.split('\n');
     var html  = '';
     lines.forEach(function(line) {
