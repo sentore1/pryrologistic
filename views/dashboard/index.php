@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // *************************************************************************
 // *                                                                       *
 // * DEPRIXA PRO -  Integrated Web Shipping System                         *
@@ -24,11 +24,11 @@ $userData = $user->cdp_getUserData();
 
 $db = new Conexion;
 
-// Obtener el mes y el año actual
+// Obtener el mes y el aÃ±o actual
 $month = date('m');
 $year = date('Y');
 
-// Obtener el número del mes actual
+// Obtener el nÃºmero del mes actual
 $currentMonth = date('n');
 
 // Obtener el nombre del mes actual
@@ -281,11 +281,11 @@ $monthName = obtenerNombreMes($currentMonth);
                                                     <small class="text-muted">
                                                         <?php echo $core->currency; ?>
                                                         <?php
-                                                        // Ejecutar la consulta SQL para obtener el total de órdenes de compra
+                                                        // Ejecutar la consulta SQL para obtener el total de Ã³rdenes de compra
                                                         $db->cdp_query('SELECT IFNULL(SUM(total_order),0) as total FROM cdb_add_order where status_courier != 21 and order_incomplete != 0 and is_pickup = 1
                                                             AND MONTH(order_date) = :month 
                                                             AND YEAR(order_date) = :year');
-                                                        // Vincular parámetros
+                                                        // Vincular parÃ¡metros
                                                         $db->bind(':month', $month);
                                                         $db->bind(':year', $year);
                                                         // Ejecutar la consulta
@@ -307,7 +307,7 @@ $monthName = obtenerNombreMes($currentMonth);
                                                         // Calcular el progreso actual del mes
                                                         $currentDay = date('j');
                                                         $totalDays = date('t');
-                                                        $progressPercentage = ($total_orders / $totalDays) * 100; // Utiliza el total de órdenes en lugar del día actual para calcular el progreso
+                                                        $progressPercentage = ($total_orders / $totalDays) * 100; // Utiliza el total de Ã³rdenes en lugar del dÃ­a actual para calcular el progreso
                                                         ?>
                                                         <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo $progressPercentage; ?>%" aria-valuenow="<?php echo $total_orders; ?>" aria-valuemin="0" aria-valuemax="<?php echo $totalDays; ?>"></div>
                                                     </div>
@@ -326,11 +326,11 @@ $monthName = obtenerNombreMes($currentMonth);
                                                     <small class="text-muted">
                                                         <?php echo $core->currency; ?>
                                                         <?php
-                                                        // Ejecutar la consulta SQL para obtener el total de órdenes de compra
+                                                        // Ejecutar la consulta SQL para obtener el total de Ã³rdenes de compra
                                                         $db->cdp_query('SELECT IFNULL(SUM(total_order),0) as total FROM cdb_add_order where status_courier != 21 and is_pickup = 0
                                                             AND MONTH(order_date) = :month 
                                                             AND YEAR(order_date) = :year');
-                                                        // Vincular parámetros
+                                                        // Vincular parÃ¡metros
                                                         $db->bind(':month', $month);
                                                         $db->bind(':year', $year);
                                                         // Ejecutar la consulta
@@ -352,7 +352,7 @@ $monthName = obtenerNombreMes($currentMonth);
                                                         // Calcular el progreso actual del mes
                                                         $currentDay = date('j');
                                                         $totalDays = date('t');
-                                                        $progressPercentage = ($total_orders2 / $totalDays) * 100; // Utiliza el total de órdenes en lugar del día actual para calcular el progreso
+                                                        $progressPercentage = ($total_orders2 / $totalDays) * 100; // Utiliza el total de Ã³rdenes en lugar del dÃ­a actual para calcular el progreso
                                                         ?>
                                                         <div class="progress-bar bg-label-blue" role="progressbar" style="width: <?php echo $progressPercentage; ?>%" aria-valuenow="<?php echo $total_orders2; ?>" aria-valuemin="0" aria-valuemax="<?php echo $totalDays; ?>"></div>
                                                     </div>
@@ -371,11 +371,11 @@ $monthName = obtenerNombreMes($currentMonth);
                                                     <small class="text-muted">
                                                         <?php echo $core->currency; ?>
                                                         <?php
-                                                            // Ejecutar la consulta SQL para obtener el total de órdenes de compra
+                                                            // Ejecutar la consulta SQL para obtener el total de Ã³rdenes de compra
                                                         $db->cdp_query('SELECT IFNULL(SUM(total_order),0) as total FROM cdb_consolidate where status_courier != 21
                                                             AND MONTH(c_date) = :month 
                                                             AND YEAR(c_date) = :year');
-                                                        // Vincular parámetros
+                                                        // Vincular parÃ¡metros
                                                         $db->bind(':month', $month);
                                                         $db->bind(':year', $year);
                                                         // Ejecutar la consulta
@@ -397,7 +397,7 @@ $monthName = obtenerNombreMes($currentMonth);
                                                         // Calcular el progreso actual del mes
                                                         $currentDay = date('j');
                                                         $totalDays = date('t');
-                                                        $progressPercentage = ($total_orders3 / $totalDays) * 100; // Utiliza el total de órdenes en lugar del día actual para calcular el progreso
+                                                        $progressPercentage = ($total_orders3 / $totalDays) * 100; // Utiliza el total de Ã³rdenes en lugar del dÃ­a actual para calcular el progreso
                                                         ?>
                                                         <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $progressPercentage; ?>%" aria-valuenow="<?php echo $total_orders3; ?>" aria-valuemin="0" aria-valuemax="<?php echo $totalDays; ?>"></div>
                                                     </div>
@@ -417,11 +417,11 @@ $monthName = obtenerNombreMes($currentMonth);
                                                     <small class="text-muted">
                                                         <?php echo $core->currency; ?>
                                                         <?php
-                                                        // Ejecutar la consulta SQL para obtener el total de órdenes de compra
+                                                        // Ejecutar la consulta SQL para obtener el total de Ã³rdenes de compra
                                                         $db->cdp_query('SELECT IFNULL(SUM(total_order),0) as total FROM cdb_consolidate_packages where status_courier != 21
                                                             AND MONTH(c_date) = :month 
                                                             AND YEAR(c_date) = :year');
-                                                        // Vincular parámetros
+                                                        // Vincular parÃ¡metros
                                                         $db->bind(':month', $month);
                                                         $db->bind(':year', $year);
                                                         // Ejecutar la consulta
@@ -443,7 +443,7 @@ $monthName = obtenerNombreMes($currentMonth);
                                                         // Calcular el progreso actual del mes
                                                         $currentDay = date('j');
                                                         $totalDays = date('t');
-                                                        $progressPercentage = ($total_orders4 / $totalDays) * 100; // Utiliza el total de órdenes en lugar del día actual para calcular el progreso
+                                                        $progressPercentage = ($total_orders4 / $totalDays) * 100; // Utiliza el total de Ã³rdenes en lugar del dÃ­a actual para calcular el progreso
                                                         ?>
                                                         <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo $progressPercentage; ?>%" aria-valuenow="<?php echo $total_orders4; ?>" aria-valuemin="0" aria-valuemax="<?php echo $totalDays; ?>"></div>
                                                     </div>
@@ -742,7 +742,7 @@ $monthName = obtenerNombreMes($currentMonth);
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <div>
                                         <h5 class="card-title mb-0">Monthly Overview</h5>
-                                        <small class="text-muted">Shipments, Pickups &amp; Consolidations — last 6 months</small>
+                                        <small class="text-muted">Shipments, Pickups &amp; Consolidations â€” last 6 months</small>
                                     </div>
                                 </div>
                                 <canvas id="dashboardBarChart" height="100"></canvas>
@@ -972,3 +972,5 @@ $monthName = obtenerNombreMes($currentMonth);
     </div>
 
     <script src="dataJs/dashboard_index.js"></script>
+
+    </script>

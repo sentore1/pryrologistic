@@ -37,6 +37,14 @@
 				<!-- Right side toggle and nav items -->
 				<!-- ============================================================== -->
 				<ul class="navbar-nav float-right">
+					<!-- P-AI Button -->
+					<?php if ($userData->userlevel == 9 || $userData->userlevel == 2): ?>
+					<li class="nav-item d-flex align-items-center mr-2">
+						<button onclick="cdp_openPAI()" id="btn-pryro-ai" style="background:#0d6efd; color:#fff; border:none; font-size:8px; font-weight:700; padding:3px 8px; border-radius:20px; letter-spacing:0.5px; cursor:pointer; transition: all 0.2s ease; white-space:nowrap; overflow:hidden; max-width:24px;"
+						onmouseenter="this.style.maxWidth='70px'; this.innerHTML='PRYRO AI';"
+						onmouseleave="this.style.maxWidth='24px'; this.innerHTML='AI';">AI</button>
+					</li>
+					<?php endif; ?>
 					<!-- ============================================================== -->
 					<!-- create new -->
 					<!-- ============================================================== -->
@@ -185,3 +193,201 @@
 
 
 	<!-- <script src="dataJs/load_notifications_all.js"> </script> -->
+
+<!-- P-AI Modal -->
+<div class="modal fade" id="modal-pai" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" id="pai-modal-dialog" role="document" style="transition: all 0.2s ease;">
+        <div class="modal-content" style="border-radius:0; overflow:hidden; display:flex; flex-direction:column; height:100%;">
+            <!-- Header -->
+            <div class="modal-header" style="background:#0d6efd; color:#fff; padding:12px 20px; flex-shrink:0;">
+                <div class="d-flex align-items-center">
+                    <span style="background:rgba(255,255,255,0.2); font-size:10px; font-weight:700; padding:2px 8px; border-radius:3px; margin-right:10px; letter-spacing:1px;">PRYRO AI</span>
+                    <h5 class="modal-title mb-0" style="color:#fff; font-size:15px;">Operations Assistant</h5>
+                </div>
+                <div class="d-flex align-items-center">
+                    <!-- Expand/fullscreen toggle -->
+                    <button type="button" id="btn-pai-expand" onclick="cdp_togglePAIFullscreen()" style="background:rgba(255,255,255,0.15); border:none; color:#fff; border-radius:4px; padding:3px 8px; margin-right:8px; cursor:pointer;" title="Expand">
+                        <i class="ti-fullscreen"></i>
+                    </button>
+                    <button type="button" class="close" data-dismiss="modal" style="color:#fff; opacity:1; margin:0;">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat messages -->
+            <div id="pai-chat-messages" style="flex:1; overflow-y:auto; padding:16px; background:#f8f9fa; min-height:320px; max-height:420px;">
+                <div class="text-center text-muted py-4">
+                    <i class="fa fa-spinner fa-spin fa-2x"></i>
+                    <p class="mt-2 mb-0" style="font-size:13px;">Pryro AI is analyzing your system...</p>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div style="padding:12px 16px; border-top:1px solid #e9ecef; background:#fff; flex-shrink:0;">
+                <div class="input-group">
+                    <input type="text" id="pai-chat-input" class="form-control" placeholder="Ask Pryro AI anything about your operations..." style="border-radius:20px 0 0 20px; font-size:13px;">
+                    <div class="input-group-append">
+                        <button id="pai-send-btn" onclick="cdp_sendPAIMessage()" class="btn btn-primary" style="border-radius:0 20px 20px 0; padding:6px 18px;">
+                            <i class="ti-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div style="font-size:10px; color:#aaa; margin-top:5px; padding-left:4px;">Press Enter to send</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+var paiHistory   = [];
+var paiFullscreen = false;
+
+function cdp_openPAI() {
+    paiHistory = [];
+    $('#modal-pai').modal('show');
+    // Send initial briefing request
+    cdp_sendPAIMessage('Give me a full briefing of the current system status. Include stuck shipments with details, driver workload, overdue payments with customer names and amounts, revenue comparison vs last month, top customers, and what happened in the last 24 hours.');
+}
+
+function cdp_togglePAIFullscreen() {
+    var $dialog = $('#pai-modal-dialog');
+    var $msgs   = $('#pai-chat-messages');
+    var $icon   = $('#btn-pai-expand i');
+    paiFullscreen = !paiFullscreen;
+    if (paiFullscreen) {
+        $dialog.css({
+            'position':'fixed', 'top':'0', 'left':'0', 'right':'0', 'bottom':'0',
+            'max-width':'100vw', 'width':'100vw', 'height':'100vh',
+            'margin':'0', 'padding':'0', 'z-index':'9999'
+        });
+        $('.modal-content', $dialog).css('height','100vh');
+        $msgs.css('max-height', 'calc(100vh - 160px)');
+        $icon.removeClass('ti-fullscreen').addClass('ti-zoom-out');
+    } else {
+        $dialog.css({
+            'position':'', 'top':'', 'left':'', 'right':'', 'bottom':'',
+            'max-width':'800px', 'width':'', 'height':'',
+            'margin':'', 'padding':'', 'z-index':''
+        });
+        $('.modal-content', $dialog).css('height','');
+        $msgs.css('max-height', '420px');
+        $icon.removeClass('ti-zoom-out').addClass('ti-fullscreen');
+    }
+}
+
+function cdp_sendPAIMessage(autoMsg) {
+    var msg = autoMsg || $('#pai-chat-input').val().trim();
+    if (!msg) return;
+
+    var $msgs = $('#pai-chat-messages');
+    var $input = $('#pai-chat-input');
+    var $btn   = $('#pai-send-btn');
+
+    // Clear input
+    if (!autoMsg) $input.val('');
+
+    // Clear initial spinner if first message
+    if (paiHistory.length === 0 && autoMsg) {
+        $msgs.html('');
+    }
+
+    // Show user message (skip for auto briefing)
+    if (!autoMsg) {
+        $msgs.append(
+            '<div style="display:flex; justify-content:flex-end; margin-bottom:10px;">'
+            + '<div style="background:#0d6efd; color:#fff; padding:8px 14px; border-radius:16px 16px 4px 16px; max-width:75%; font-size:13px; line-height:1.5;">'
+            + $('<div>').text(msg).html()
+            + '</div></div>'
+        );
+    }
+
+    // Show typing indicator
+    var typingId = 'typing-' + Date.now();
+    $msgs.append(
+        '<div id="' + typingId + '" style="display:flex; align-items:flex-start; margin-bottom:10px;">'
+        + '<div style="background:#0d6efd; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; margin-right:8px; flex-shrink:0;">AI</div>'
+        + '<div style="background:#fff; border:1px solid #e9ecef; padding:8px 14px; border-radius:4px 16px 16px 16px; font-size:13px; color:#888;">'
+        + '<i class="fa fa-spinner fa-spin"></i> Thinking...</div></div>'
+    );
+    $msgs.scrollTop($msgs[0].scrollHeight);
+    $btn.prop('disabled', true);
+
+    $.ajax({
+        url: 'ajax/ai/ai_chat_ajax.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            message: msg,
+            history: JSON.stringify(paiHistory)
+        },
+        success: function(data) {
+            $('#' + typingId).remove();
+            var reply = data.reply || 'No response.';
+
+            // Format reply — convert markdown to HTML
+            var html = cdp_formatPAIReply(reply);
+
+            $msgs.append(
+                '<div style="display:flex; align-items:flex-start; margin-bottom:12px;">'
+                + '<div style="background:#0d6efd; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; margin-right:8px; flex-shrink:0;">AI</div>'
+                + '<div style="background:#fff; border:1px solid #e9ecef; padding:10px 14px; border-radius:4px 16px 16px 16px; max-width:85%; font-size:13px; line-height:1.6;">'
+                + html + '</div></div>'
+            );
+            $msgs.scrollTop($msgs[0].scrollHeight);
+
+            // Update history
+            paiHistory.push({ role: 'user',      content: msg });
+            paiHistory.push({ role: 'assistant', content: reply });
+
+            // Keep history to last 10 exchanges
+            if (paiHistory.length > 20) paiHistory = paiHistory.slice(-20);
+        },
+        error: function() {
+            $('#' + typingId).remove();
+            $msgs.append('<div class="alert alert-warning m-2" style="font-size:12px;">Could not reach AI. Check your API key in <a href="tools.php?list=config_ai">AI Settings</a>.</div>');
+        },
+        complete: function() {
+            $btn.prop('disabled', false);
+            $input.focus();
+        }
+    });
+}
+
+function cdp_formatPAIReply(text) {
+    // Convert markdown to HTML
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+    var lines = text.split('\n');
+    var html  = '';
+    lines.forEach(function(line) {
+        line = line.trim();
+        if (!line) { html += '<div style="height:6px;"></div>'; return; }
+        if (line.match(/^[-•*]\s+/)) {
+            line = line.replace(/^[-•*]\s+/, '');
+            html += '<div style="padding-left:12px; margin-bottom:4px; display:flex; gap:6px;"><span style="color:#0d6efd; flex-shrink:0;">•</span><span>' + line + '</span></div>';
+        } else {
+            html += '<div style="margin-bottom:4px;">' + line + '</div>';
+        }
+    });
+    return html;
+}
+
+// Enter key to send
+$(document).on('keypress', '#pai-chat-input', function(e) {
+    if (e.which === 13) cdp_sendPAIMessage();
+});
+
+// Reset on modal close
+$('#modal-pai').on('hidden.bs.modal', function() {
+    paiHistory = [];
+    paiFullscreen = false;
+    $('#pai-modal-dialog').css({ 'position':'', 'top':'', 'left':'', 'right':'', 'bottom':'', 'max-width':'', 'width':'', 'height':'', 'margin':'', 'padding':'', 'z-index':'' });
+    $('.modal-content', '#pai-modal-dialog').css('height','');
+    $('#pai-chat-messages').css('max-height', '420px').html(
+        '<div class="text-center text-muted py-4"><i class="fa fa-spinner fa-spin fa-2x"></i><p class="mt-2 mb-0" style="font-size:13px;">Pryro AI is analyzing your system...</p></div>'
+    );
+    $('#btn-pai-expand i').removeClass('ti-zoom-out').addClass('ti-fullscreen');
+});
+</script>

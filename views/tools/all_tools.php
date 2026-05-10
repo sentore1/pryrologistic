@@ -136,6 +136,7 @@ $code_currency = $core->cdp_getCodeCountries();
                     'activate_twilio_whatsapp',
                     'config',
                     'configlogo',
+                    'config_ai',
                     'config_api_google',
                     'config_email',
                     'config_general',

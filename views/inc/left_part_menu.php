@@ -119,6 +119,13 @@
 							<hr>
 						</li>
 
+						<li class="list-group-item sidebar-item">
+							<a href="tools.php?list=config_ai" class="list-group-item-action">
+								<span style="background:#7460ee; color:#fff; font-size:9px; font-weight:700; padding:1px 5px; border-radius:3px; margin-right:6px;">P-AI</span>
+								AI Settings
+							</a>
+						</li>
+
 					</ul>
 
 				<?php } ?>

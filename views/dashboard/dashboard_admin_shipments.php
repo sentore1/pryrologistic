@@ -367,3 +367,5 @@ $monthName = obtenerNombreMes($currentMonth);
     <script src="assets/template/assets/libs/morris.js/morris.min.js"></script>
 
     <script src="dataJs/courier.js"></script>
+
+
