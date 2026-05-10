@@ -102,67 +102,17 @@ $monthName = obtenerNombreMes($currentMonth);
                 <!-- ============================================================== -->
 
                 <div class="row">
-                    <!-- View sales -->
-                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-end row">
-                                  <div class="col-8">
-                                    <div class="text-nowrap">
-                                      <h5 class="card-title mb-3"><?php echo $lang['messagesform84'] ?></h5>
-                                      
-                                      <h4 class="text-primary mb-2">
-                                        <?php echo $core->currency; ?>
-                                        <?php
-                                            // Consulta SQL
-                                            $sql = "SELECT IFNULL(SUM(total_order), 0) as total 
-                                                    FROM cdb_add_order 
-                                                    WHERE status_courier != 21 
-                                                    AND status_invoice != 0 
-                                                    AND order_payment_method > 1 
-                                                    AND MONTH(order_date) = :month 
-                                                    AND YEAR(order_date) = :year";
-
-                                            // Preparar la consulta
-                                            $db->cdp_query($sql);
-                                            // Vincular parámetros
-                                            $db->bind(':month', $month);
-                                            $db->bind(':year', $year);
-                                            // Ejecutar la consulta
-                                            $db->cdp_execute();
-                                            // Obtener el registro
-                                            $count = $db->cdp_registro();
-                                            // Mostrar el total de ventas
-                                            echo cdb_money_format($count->total);
-                                        ?>
-
-                                      </h4>
-                                      <a href="dashboard_admin_account.php" class="btn btn-primary"><?php echo $lang['messagesform83'] ?></a>
-                                    </div>
-                                  </div>
-                                  <div class="col-4 text-center text-sm-left">
-                                    <div class="card-body pb-0 px-0 px-md-4">
-                                      <div class="m-r-10"><span class="text-primary display-6"><i class="mdi mdi-chart-line"></i></span></div>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- View sales -->
-
-                    <!-- Statistics -->
-                    <div class="col-12 col-sm-10 col-md-8 col-lg-8 col-xl-8 mb-4">
+                    <!-- Statistics: Logistics Summary (moved here, left side) -->
+                    <div class="col-12 col-md-8 mb-4">
                         <div class="card">
                             <div class="card-body">
                               <div class="d-flex justify-content-between mb-3">
                                 <h4 class="card-title mb-1"><?php echo $lang['messagesform89'] ?></h4>
                                 <small class="text-muted"><?php echo $lang['messagesform90'] ?> <?php echo $monthName; ?></small>
                               </div>
-
                             </div>
                             <div class="card-body">
-                              <div class="row gy-3">
+                              <div class="row gy-3 pb-3">
                                 <div class="col-md-4 col-12">
                                   <div class="d-flex align-items-center">
                                     <div class="badge rounded-pill bg-label-info me-3 p-2" style="width:60px; height:60px; display:flex; align-items:center; justify-content:center;">
@@ -173,16 +123,10 @@ $monthName = obtenerNombreMes($currentMonth);
                                         <?php echo $core->currency; ?>
                                         <?php
                                             $db->cdp_query('SELECT IFNULL(SUM(total_order),0) as total FROM cdb_add_order where status_courier != 21 and order_incomplete != 0 and is_pickup = 1
-                                                AND MONTH(order_date) = :month 
-                                                AND YEAR(order_date) = :year');
-                                            // Vincular parámetros
-                                            $db->bind(':month', $month);
-                                            $db->bind(':year', $year);
-                                            // Ejecutar la consulta
+                                                AND MONTH(order_date) = :month AND YEAR(order_date) = :year');
+                                            $db->bind(':month', $month); $db->bind(':year', $year);
                                             $db->cdp_execute();
-                                            // Obtener el registro
-                                            $count = $db->cdp_registro();
-                                            $sum2 = $count->total;
+                                            $count = $db->cdp_registro(); $sum2 = $count->total;
                                             echo cdb_money_format($sum2);
                                         ?>
                                       </h5>
@@ -200,16 +144,10 @@ $monthName = obtenerNombreMes($currentMonth);
                                         <?php echo $core->currency; ?>
                                         <?php
                                         $db->cdp_query('SELECT IFNULL(SUM(total_order),0) as total FROM cdb_add_order where status_courier != 21 and is_pickup = 0
-                                            AND MONTH(order_date) = :month 
-                                            AND YEAR(order_date) = :year');
-                                        // Vincular parámetros
-                                        $db->bind(':month', $month);
-                                        $db->bind(':year', $year);
-                                        // Ejecutar la consulta
+                                            AND MONTH(order_date) = :month AND YEAR(order_date) = :year');
+                                        $db->bind(':month', $month); $db->bind(':year', $year);
                                         $db->cdp_execute();
-                                        // Obtener el registro
-                                        $count = $db->cdp_registro();
-                                        $sum1 = $count->total;
+                                        $count = $db->cdp_registro(); $sum1 = $count->total;
                                         echo cdb_money_format($sum1);
                                         ?>
                                       </h5>
@@ -225,34 +163,97 @@ $monthName = obtenerNombreMes($currentMonth);
                                     <div class="card-info">
                                       <h5 class="mb-0">
                                         <?php echo $core->currency; ?>
-
                                         <?php
-
                                         $db->cdp_query('SELECT IFNULL(SUM(total_order),0) as total FROM cdb_customers_packages where status_courier != 21
-                                            AND MONTH(order_date) = :month 
-                                            AND YEAR(order_date) = :year');
-                                        // Vincular parámetros
-                                        $db->bind(':month', $month);
-                                        $db->bind(':year', $year);
-                                        // Ejecutar la consulta
+                                            AND MONTH(order_date) = :month AND YEAR(order_date) = :year');
+                                        $db->bind(':month', $month); $db->bind(':year', $year);
                                         $db->cdp_execute();
-                                        // Obtener el registro
-                                        $count1 = $db->cdp_registro();
-                                        $sum3 = $count1->total;
+                                        $count1 = $db->cdp_registro(); $sum3 = $count1->total;
                                         echo cdb_money_format($sum3);
                                         ?>
-                                                       
                                       </h5>
                                       <small><?php echo $lang['messagesform85'] ?></small>
                                     </div>
                                   </div>
                                 </div>
-                                
                               </div>
                             </div>
                         </div>
                     </div>
                     <!--/ Statistics -->
+
+                    <!-- Summary of accounts receivable: 3 stacked cards (right side) -->
+                    <div class="col-12 col-md-4 mb-4">
+                        <?php
+                            $sql = "SELECT IFNULL(SUM(total_order), 0) as total FROM cdb_add_order 
+                                    WHERE status_courier != 21 AND status_invoice != 0 AND order_payment_method > 1 
+                                    AND MONTH(order_date) = :month AND YEAR(order_date) = :year";
+                            $db->cdp_query($sql);
+                            $db->bind(':month', $month); $db->bind(':year', $year);
+                            $db->cdp_execute();
+                            $ar_total = $db->cdp_registro()->total;
+
+                            $db->cdp_query("SELECT IFNULL(SUM(total_order), 0) as total FROM cdb_add_order 
+                                    WHERE status_courier != 21 AND status_invoice = 2 AND order_payment_method > 1 
+                                    AND MONTH(order_date) = :month AND YEAR(order_date) = :year");
+                            $db->bind(':month', $month); $db->bind(':year', $year);
+                            $db->cdp_execute();
+                            $ar_paid = $db->cdp_registro()->total;
+
+                            $db->cdp_query("SELECT IFNULL(SUM(total_order), 0) as total FROM cdb_add_order 
+                                    WHERE status_courier != 21 AND status_invoice = 1 AND order_payment_method > 1 
+                                    AND MONTH(order_date) = :month AND YEAR(order_date) = :year");
+                            $db->bind(':month', $month); $db->bind(':year', $year);
+                            $db->cdp_execute();
+                            $ar_pending = $db->cdp_registro()->total;
+                        ?>
+                        <div class="row h-100">
+                            <!-- Card 1: Total AR -->
+                            <div class="col-12 mb-3">
+                                <div class="card mb-0">
+                                    <div class="card-body py-3">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <h6 class="card-title mb-1"><?php echo $lang['messagesform84'] ?></h6>
+                                                <h4 class="text-primary mb-1"><?php echo $core->currency; ?> <?php echo cdb_money_format($ar_total); ?></h4>
+                                                <a href="dashboard_admin_account.php" class="btn btn-primary btn-sm"><?php echo $lang['messagesform83'] ?></a>
+                                            </div>
+                                            <span class="text-primary display-6"><i class="mdi mdi-chart-line"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card 2: Paid -->
+                            <div class="col-6 mb-3">
+                                <div class="card mb-0 h-100">
+                                    <div class="card-body py-2 px-3">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <h6 class="card-title mb-1" style="font-size:0.8rem;"><?php echo $lang['dash-general-paid'] ?? 'Paid' ?></h6>
+                                                <h6 class="text-success mb-0"><?php echo $core->currency; ?> <?php echo cdb_money_format($ar_paid); ?></h6>
+                                            </div>
+                                            <span class="text-success" style="font-size:1.3rem;"><i class="mdi mdi-check-circle-outline"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card 3: Pending -->
+                            <div class="col-6 mb-3">
+                                <div class="card mb-0 h-100">
+                                    <div class="card-body py-2 px-3">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <h6 class="card-title mb-1" style="font-size:0.8rem;"><?php echo $lang['dash-general-pending'] ?? 'Pending' ?></h6>
+                                                <h6 class="text-warning mb-0"><?php echo $core->currency; ?> <?php echo cdb_money_format($ar_pending); ?></h6>
+                                            </div>
+                                            <span class="text-warning" style="font-size:1.3rem;"><i class="mdi mdi-clock-outline"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ Summary of accounts receivable -->
                 </div> 
 
                 <div class="row">
@@ -468,9 +469,12 @@ $monthName = obtenerNombreMes($currentMonth);
                                         </div>
                                         <div><br></div>
                                         <div class="pb-0">
-                                            <div class="row">
-                                                <!-- Primer grupo de 3 elementos -->
-                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                            <div class="row align-items-center">
+                                                <!-- Stats: two sub-columns -->
+                                                <div class="col-sm-8 col-md-8 col-lg-8">
+                                                    <div class="row">
+                                                    <!-- Primer grupo de 3 elementos -->
+                                                    <div class="col-sm-6 col-md-6 col-lg-6">
                                                     <!-- Primer elemento contador de envios -->
                                                     <div class="col-lg-12 col-md-12 mb-2">
                                                         <div class="d-flex align-items-center">
@@ -595,11 +599,17 @@ $monthName = obtenerNombreMes($currentMonth);
                                                         </div>
                                                     </div>
                                                 </div>
+                                                    </div><!-- /inner row -->
+                                                </div><!-- /col-8 stats -->
+
+                                                <!-- Truck image on the right -->
+                                                <div class="col-sm-4 col-md-4 col-lg-4 text-center d-none d-sm-flex align-items-center justify-content-center">
+                                                    <img src="assets/images/alert/truck_dashboard.png" style="max-height:150px; opacity:0.9;" />
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
-
-
                                     <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 mb-4">
                                         <div class="card-header-title d-flex justify-content-between">
                                             <div class="card-title mb-6">
@@ -742,11 +752,11 @@ $monthName = obtenerNombreMes($currentMonth);
                         <div class="card h-100">
                             <div class="card-body d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <img src="assets/images/alert/truck_dashboard.png" style="height:130px; opacity:0.85;" />
-                                    <div class="text-right">
+                                    <div>
                                         <h5 class="card-title mb-0">Top Customers</h5>
                                         <small class="text-muted">By shipment volume</small>
                                     </div>
+                                    <span class="text-primary" style="font-size:2.5rem;"><i class="mdi mdi-account-group"></i></span>
                                 </div>
                                 <?php
                                 $db->cdp_query("SELECT CONCAT(u.fname, ' ', u.lname) as customer, COUNT(o.id) as total
