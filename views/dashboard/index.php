@@ -958,7 +958,4 @@ $monthName = obtenerNombreMes($currentMonth);
         </div>
     </div>
 
-
-
-
     <script src="dataJs/dashboard_index.js"></script>
