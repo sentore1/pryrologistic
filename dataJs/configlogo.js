@@ -144,7 +144,7 @@ $(document).ready(function () {
             var reader = new FileReader();
 
             reader.onload = function (e) {
-                $(previewId).attr('src', e.target.result);
+                $(previewId).attr('src', e.target.result).show();
             };
 
             reader.readAsDataURL(file);

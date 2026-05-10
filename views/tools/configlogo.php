@@ -44,7 +44,7 @@
 									<label for="lastName1"><?php echo $lang['tools-config27'] ?>, <?php echo $lang['left805'] ?> </label>
 									<input class="form-control" name="logo" id="logo" type="file" />
 									<div class="image-preview">
-				                        <img id="logo-preview" src="<?php echo $core->logo; ?>" alt="Logo Preview" />
+				                        <img id="logo-preview" src="<?php echo !empty($core->logo) ? 'assets/' . $core->logo : ''; ?>" alt="Logo Preview" <?php echo empty($core->logo) ? 'style="display:none"' : ''; ?> />
 				                    </div>
 								</div>
 							</div>
@@ -71,7 +71,7 @@
 									<label for="lastName1"><?php echo $lang['tools-config27web'] ?>, <?php echo $lang['left805'] ?> </label>
 									<input class="form-control" name="logo_web" id="logo_web" type="file" />
 									<div class="image-preview">
-				                        <img id="logo-web-preview" src="<?php echo $core->logo_web; ?>" alt="Logo Preview" />
+				                        <img id="logo-web-preview" src="<?php echo !empty($core->logo_web) ? 'assets/' . $core->logo_web : ''; ?>" alt="Logo Preview" <?php echo empty($core->logo_web) ? 'style="display:none"' : ''; ?> />
 				                    </div>
 								</div>
 							</div>
@@ -101,7 +101,7 @@
 									<label for="lastName1"><?php echo $lang['tools-config26'] ?>, <?php echo $lang['left805'] ?> 45 x 45</label>
 									<input class="form-control" name="favicon" id="favicon" type="file" />
 									<div class="image-preview">
-				                        <img id="favicon-preview" src="<?php echo $core->favicon; ?>" alt="Logo Preview" />
+				                        <img id="favicon-preview" src="<?php echo !empty($core->favicon) ? 'assets/' . $core->favicon : ''; ?>" alt="Logo Preview" <?php echo empty($core->favicon) ? 'style="display:none"' : ''; ?> />
 				                    </div>
 								</div>
 							</div>
