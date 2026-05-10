@@ -407,3 +407,64 @@ function cdp_soloNumeros(e) {
   var key = e.charCode;
   return key >= 44 && key <= 57;
 }
+
+
+// MOMO offline payment submission
+$("#add_charges_momo").on('submit', function (event) {
+  event.preventDefault();
+  $('#save_form_momo').attr("disabled", true);
+  var inputFileImage = document.getElementById("filesMultiple_momo");
+  var notes = $('#notes_momo').val();
+  var mode_pay = $('#mode_pay_momo').val();
+  var file = inputFileImage.files[0];
+  var data = new FormData();
+  data.append('file_invoice', file);
+  data.append('notes', notes);
+  data.append('mode_pay', mode_pay);
+  $.ajax({
+    type: "POST",
+    url: "./ajax/consolidate/consolidate_add_payment_doc_ajax.php?order_id=" + consolidate_id,
+    data: data, contentType: false, cache: false, processData: false,
+    beforeSend: function () { $("#resultados_ajax").html("<img src='assets/images/loader.gif'/><br/>Wait a moment please..."); },
+    success: function (datos) {
+      $("#resultados_ajax").html(datos);
+      $('#save_form_momo').attr("disabled", false);
+      $('html, body').animate({ scrollTop: 0 }, 600);
+    }
+  });
+});
+$('#openMultiFile_momo').on('click', function () { $("#filesMultiple_momo").click(); });
+$('#clean_file_button_momo').on('click', function () { $("#filesMultiple_momo").val(''); $('#clean_files_momo').addClass('hide'); });
+$('#filesMultiple_momo').on('change', function () {
+  if (this.files.length > 0) { $('#clean_files_momo').removeClass('hide'); } else { $('#clean_files_momo').addClass('hide'); }
+});
+
+// Airtel Money offline payment submission
+$("#add_charges_airtel").on('submit', function (event) {
+  event.preventDefault();
+  $('#save_form_airtel').attr("disabled", true);
+  var inputFileImage = document.getElementById("filesMultiple_airtel");
+  var notes = $('#notes_airtel').val();
+  var mode_pay = $('#mode_pay_airtel').val();
+  var file = inputFileImage.files[0];
+  var data = new FormData();
+  data.append('file_invoice', file);
+  data.append('notes', notes);
+  data.append('mode_pay', mode_pay);
+  $.ajax({
+    type: "POST",
+    url: "./ajax/consolidate/consolidate_add_payment_doc_ajax.php?order_id=" + consolidate_id,
+    data: data, contentType: false, cache: false, processData: false,
+    beforeSend: function () { $("#resultados_ajax").html("<img src='assets/images/loader.gif'/><br/>Wait a moment please..."); },
+    success: function (datos) {
+      $("#resultados_ajax").html(datos);
+      $('#save_form_airtel').attr("disabled", false);
+      $('html, body').animate({ scrollTop: 0 }, 600);
+    }
+  });
+});
+$('#openMultiFile_airtel').on('click', function () { $("#filesMultiple_airtel").click(); });
+$('#clean_file_button_airtel').on('click', function () { $("#filesMultiple_airtel").val(''); $('#clean_files_airtel').addClass('hide'); });
+$('#filesMultiple_airtel').on('change', function () {
+  if (this.files.length > 0) { $('#clean_files_airtel').removeClass('hide'); } else { $('#clean_files_airtel').addClass('hide'); }
+});

@@ -65,6 +65,12 @@ if ($active_paystack->is_active == 1) {
 $db->cdp_query("SELECT * FROM cdb_met_payment WHERE id=5 ");
 $active_wire = $db->cdp_registro();
 
+$db->cdp_query("SELECT * FROM cdb_met_payment WHERE id=6 ");
+$active_momo = $db->cdp_registro();
+
+$db->cdp_query("SELECT * FROM cdb_met_payment WHERE id=7 ");
+$active_airtel = $db->cdp_registro();
+
 
 $payrow = $core->cdp_getPayment();
 
@@ -218,6 +224,24 @@ $payrow = $core->cdp_getPayment();
                                                 <?php
                                                 }
                                                 ?>
+
+                                                <?php if ($active_momo->is_active == 1) { ?>
+                                                    <li class="nav-item">
+                                                        <a data-toggle="pill" href="#momo" class="nav-link">
+                                                            <i class="fas fa-mobile-alt mr-2"></i>
+                                                            <?php echo $active_momo->name_pay; ?>
+                                                        </a>
+                                                    </li>
+                                                <?php } ?>
+
+                                                <?php if ($active_airtel->is_active == 1) { ?>
+                                                    <li class="nav-item">
+                                                        <a data-toggle="pill" href="#airtel" class="nav-link">
+                                                            <i class="fas fa-sim-card mr-2"></i>
+                                                            <?php echo $active_airtel->name_pay; ?>
+                                                        </a>
+                                                    </li>
+                                                <?php } ?>
                                             </ul>
                                         </div> <!-- End -->
                                         <!-- Credit card form content -->
@@ -371,6 +395,90 @@ $payrow = $core->cdp_getPayment();
                                             <?php
                                             }
                                             ?>
+
+                                            <?php if ($active_momo->is_active == 1) { ?>
+                                                <div id="momo" class="tab-pane fade pt-3">
+                                                    <form style="padding: 40px" class="form-horizontal" method="post" id="add_charges_momo" name="add_charges_momo">
+                                                        <p><b><?php echo $active_momo->detail_pay; ?></b></p>
+                                                        <div class="row">
+                                                            <div class="form-group col-md-12">
+                                                                <label class="control-label col-form-label"><?php echo $lang['left243'] ?></label>
+                                                                <div class="input-group mb-3">
+                                                                    <select class="custom-select col-12" id="mode_pay_momo" name="mode_pay" required="">
+                                                                        <option value=""><?php echo $lang['left243'] ?></option>
+                                                                        <?php foreach ($payrow as $row) : ?>
+                                                                            <option value="<?php echo $row->id; ?>"><?php echo $row->name_pay; ?></option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-3">
+                                                                <label class="control-label"><?php echo $lang['leftorder15']; ?></label>
+                                                                <input class="custom-file-input" id="filesMultiple_momo" name="filesMultiple" type="file" style="display: none;" />
+                                                                <button type="button" id="openMultiFile_momo" class="btn btn-info pull-left">
+                                                                    <i class='fa fa-paperclip' style="font-size:18px; cursor:pointer;"></i> <?php echo $lang['leftorder78']; ?></button>
+                                                                <div id="clean_files_momo" class="row hide">
+                                                                    <button type="button" id="clean_file_button_momo" class="mt-3 btn btn-danger ml-3">
+                                                                        <i class='fa fa-trash' style="font-size:18px; cursor:pointer;"></i> <?php echo $lang['leftorder17']; ?></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-12">
+                                                                <label class="control-label"><?php echo $lang['modal-text18']; ?></label>
+                                                                <textarea class="form-control" id="notes_momo" name="notes" rows="2"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success" id="save_form_momo"><?php echo $lang['left1103']; ?></button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            <?php } ?>
+
+                                            <?php if ($active_airtel->is_active == 1) { ?>
+                                                <div id="airtel" class="tab-pane fade pt-3">
+                                                    <form style="padding: 40px" class="form-horizontal" method="post" id="add_charges_airtel" name="add_charges_airtel">
+                                                        <p><b><?php echo $active_airtel->detail_pay; ?></b></p>
+                                                        <div class="row">
+                                                            <div class="form-group col-md-12">
+                                                                <label class="control-label col-form-label"><?php echo $lang['left243'] ?></label>
+                                                                <div class="input-group mb-3">
+                                                                    <select class="custom-select col-12" id="mode_pay_airtel" name="mode_pay" required="">
+                                                                        <option value=""><?php echo $lang['left243'] ?></option>
+                                                                        <?php foreach ($payrow as $row) : ?>
+                                                                            <option value="<?php echo $row->id; ?>"><?php echo $row->name_pay; ?></option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-3">
+                                                                <label class="control-label"><?php echo $lang['leftorder15']; ?></label>
+                                                                <input class="custom-file-input" id="filesMultiple_airtel" name="filesMultiple" type="file" style="display: none;" />
+                                                                <button type="button" id="openMultiFile_airtel" class="btn btn-info pull-left">
+                                                                    <i class='fa fa-paperclip' style="font-size:18px; cursor:pointer;"></i> <?php echo $lang['leftorder78']; ?></button>
+                                                                <div id="clean_files_airtel" class="row hide">
+                                                                    <button type="button" id="clean_file_button_airtel" class="mt-3 btn btn-danger ml-3">
+                                                                        <i class='fa fa-trash' style="font-size:18px; cursor:pointer;"></i> <?php echo $lang['leftorder17']; ?></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-12">
+                                                                <label class="control-label"><?php echo $lang['modal-text18']; ?></label>
+                                                                <textarea class="form-control" id="notes_airtel" name="notes" rows="2"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success" id="save_form_airtel"><?php echo $lang['left1103']; ?></button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            <?php } ?>
 
                                         </div>
                                         <!-- End -->

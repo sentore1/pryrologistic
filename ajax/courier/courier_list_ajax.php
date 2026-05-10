@@ -248,7 +248,7 @@ if ($numrows > 0) { ?>
 							<?php } ?>
 							<td class="text-center"><?php echo $address_order->recipient_country; ?>-<?php echo $address_order->recipient_city; ?></td>
 
-							<td class="text-center"><?php echo $met_payment->name_pay; ?></td>
+							<td class="text-center"><?php echo $met_payment ? $met_payment->name_pay : '-'; ?></td>
 
 							<td class="">
 
