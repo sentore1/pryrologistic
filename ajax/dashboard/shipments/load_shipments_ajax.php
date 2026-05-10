@@ -166,7 +166,7 @@ if ($numrows > 0) { ?>
 							</td>
 
 							<td class="text-center"><?php echo $address_order->recipient_country; ?>-<?php echo $address_order->recipient_city; ?></td>
-							<td class="text-center"><?php echo $met_payment->name_pay; ?></td>
+							<td class="text-center"><?php echo $met_payment ? $met_payment->name_pay : '—'; ?></td>
 
 							<td class="text-center">
 								<?php echo cdb_money_format($row->total_order); ?>

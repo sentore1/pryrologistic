@@ -65,6 +65,26 @@ if ($drivers) foreach ($drivers as $r) {
     ];
 }
 
+// --- Pending payments (not overdue but unpaid) with order_id ---
+$db->cdp_query("
+    SELECT o.order_id, o.order_prefix, o.order_no, o.total_order, u.fname, u.lname, o.status_courier
+    FROM cdb_add_order o
+    LEFT JOIN cdb_users u ON u.id = o.sender_id
+    WHERE o.status_invoice = 2 AND o.status_courier NOT IN (21)
+    ORDER BY o.order_date DESC LIMIT 10
+");
+$db->cdp_execute();
+$pending_pay = $db->cdp_registros();
+$context['pending_payments'] = [];
+if ($pending_pay) foreach ($pending_pay as $r) {
+    $context['pending_payments'][] = [
+        'order_id' => (int)$r->order_id,
+        'tracking' => $r->order_prefix . $r->order_no,
+        'customer' => trim($r->fname . ' ' . $r->lname),
+        'amount'   => (float)$r->total_order,
+    ];
+}
+
 // --- Overdue invoices with order_id ---
 $db->cdp_query("
     SELECT o.order_id, o.order_prefix, o.order_no, o.due_date, o.total_order,
@@ -152,15 +172,18 @@ Always refer to specific tracking numbers, customer names, and amounts from the 
 Always use "{$currency}" as the currency symbol. Never use dollar sign or any other currency.
 
 IMPORTANT - ACTION BUTTONS:
-When you identify actions that can be taken, append them at the very end of your reply using this exact format on a single line:
-ACTIONS_JSON:[{"action":"confirm_payment","label":"Confirm Payment","order_id":123,"order_type":"courier","description":"Confirm payment for WIL123"},{"action":"update_status","label":"Mark In Transit","order_id":456,"status_id":4,"order_type":"courier","description":"Update WIL456 to In Transit"},{"action":"confirm_all_wire_payments","label":"Confirm All Overdue Payments","description":"Mark all overdue invoices as paid"}]
+Only append ACTIONS_JSON if the data contains real items that need action. NEVER include an action if the data shows 0 items or empty arrays for that category.
 
-Rules for ACTIONS_JSON:
-- Only include it when there are real actionable items from the live data
-- Use the actual order_id numbers from the data provided
-- Available actions: confirm_payment, update_status, confirm_all_wire_payments
-- Status IDs for update_status: 2=Pending, 3=Processing, 4=In Transit, 5=Out for Delivery, 8=Delivered, 21=Cancelled
-- Do NOT wrap ACTIONS_JSON in markdown code blocks
+Specific rules:
+- Add "confirm_payment" button ONLY if pending_payments OR overdue_invoices array has items with actual order_id values
+- Add "confirm_all_wire_payments" button ONLY if overdue_invoices array has 2 or more items
+- Add "update_status" button ONLY if stuck_shipments array has items with actual order_id values
+- If everything is fine and no action is needed, do NOT include ACTIONS_JSON at all
+
+When actions exist, append at the very end on one line:
+ACTIONS_JSON:[{"action":"confirm_payment","label":"Confirm Payment - TRACKING","order_id":REAL_ID,"order_type":"courier","description":"Confirm payment for TRACKING"},{"action":"update_status","label":"Mark In Transit - TRACKING","order_id":REAL_ID,"status_id":4,"order_type":"courier","description":"Update TRACKING to In Transit"}]
+
+Status IDs: 2=Pending, 3=Processing, 4=In Transit, 5=Out for Delivery, 8=Delivered, 21=Cancelled
 
 Here is the current live system data:
 {$context_json}
