@@ -1,0 +1,60 @@
+   
+    .pagination {
+        float: right;
+        margin: 0 0 5px;
+    }
+    .pagination li a {
+        border: none;
+        font-size: 13px;
+        min-width: 30px;
+        min-height: 30px;
+        color: #999;
+        margin: 0 2px;
+        line-height: 30px;
+        border-radius: 2px !important;
+        text-align: center;
+        padding: 0 6px;
+    }
+    .pagination li a:hover {
+        color: #666;
+    }	
+    .pagination li.active a, .pagination li.active a.page-link {
+        background: #03A9F4;
+    }
+    .pagination li.active a:hover {        
+        background: #0397d6;
+    }
+	.pagination li.disabled i {
+        color: #ccc;
+    }
+    .pagination li i {
+        font-size: 16px;
+        padding-top: 6px
+    }
+
+/* White sidebar override */
+.left-sidebar,
+.left-sidebar .scroll-sidebar,
+.left-sidebar .sidebar-nav,
+.left-sidebar ul,
+.left-sidebar .user-profile {
+    background: #ffffff !important;
+}
+
+.left-sidebar .sidebar-nav ul#sidebarnav > li > a {
+    color: #3c4858 !important;
+}
+
+.left-sidebar .sidebar-nav ul#sidebarnav > li > a:hover,
+.left-sidebar .sidebar-nav ul#sidebarnav > li.active > a {
+    color: #467FFF !important;
+}
+
+.left-sidebar .sidebar-nav ul#sidebarnav > li > a i {
+    color: #3c4858 !important;
+}
+
+.left-sidebar .sidebar-nav ul#sidebarnav > li > a:hover i,
+.left-sidebar .sidebar-nav ul#sidebarnav > li.active > a i {
+    color: #467FFF !important;
+}
