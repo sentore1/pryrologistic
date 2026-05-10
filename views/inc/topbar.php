@@ -60,17 +60,32 @@
 					<!-- Comment -->
 					<!-- ============================================================== -->
 
-					<li class="nav-item dropdown">
+					<li class="nav-item dropdown" id="notif-dropdown">
 						<a id="clickme" class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<i class="mdi mdi-bell-outline" style="font-size:22px;"></i>
 							<span class="badge badge-notify badge-sm up badge-light pull-top-xs" id="countNotifications">0</span>
 						</a>
 
-						<div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">
+						<div class="dropdown-menu dropdown-menu-right mailbox">
 							<div id="ajax_response"></div>
 						</div>
 
 					</li>
+
+					<script>
+					document.addEventListener('DOMContentLoaded', function () {
+						var notifLi = document.getElementById('notif-dropdown');
+						var menu = notifLi.querySelector('.dropdown-menu');
+						notifLi.addEventListener('mouseenter', function () {
+							menu.classList.add('show');
+							notifLi.classList.add('show');
+						});
+						notifLi.addEventListener('mouseleave', function () {
+							menu.classList.remove('show');
+							notifLi.classList.remove('show');
+						});
+					});
+					</script>
 
 
 					<!-- ============================================================== -->

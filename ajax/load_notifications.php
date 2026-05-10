@@ -75,9 +75,8 @@ if ($rowCount > 0) {
 
 <ul class="list-style-none">
     <li>
-        <div class="drop-title  text-white	<?php echo $bg; ?>">
-            <h4 class="m-b-0 m-t-5"><?php echo $rowCount; ?></h4>
-            <span class="font-light"> <?php echo $lang['notification_title']; ?> </span>
+        <div class="drop-title" style="padding: 8px 15px; background: none; border-bottom: 1px solid #eee; position: relative; z-index: 1;"><style>.mailbox .drop-title:after { display: none !important; }</style>
+            <span style="font-size:13px; font-weight:600; color:#555;"><?php echo $lang['notification_title']; ?> <span class="badge badge-pill badge-<?php echo ($rowCount > 0) ? 'danger' : 'secondary'; ?> ml-1"><?php echo $rowCount; ?></span></span>
         </div>
     </li>
 
